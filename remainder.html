@@ -6,7 +6,7 @@
 <title>Reminders</title>
 
 <style>
-/* ========= THEME ========= */
+
 :root {
   --bg: #eef1ff;
   --bg-accent: #cdd4ff;
@@ -31,7 +31,6 @@
   --shadow: 0 40px 90px rgba(0,0,0,0.8);
 }
 
-/* ========= BASE ========= */
 * {
   box-sizing: border-box;
   transition: background-color .35s ease, color .35s ease, border .35s ease;
@@ -95,7 +94,7 @@ body {
   cursor: pointer;
 }
 
-/* ========= CARD ========= */
+
 .card {
   background: var(--card);
   border-radius: 22px;
@@ -108,7 +107,7 @@ body {
   margin-top: 16px;
 }
 
-/* ========= INPUTS ========= */
+
 input, select {
   width: 100%;
   padding: 14px;
@@ -164,7 +163,7 @@ input:focus, select:focus {
 
 input[type="file"] { display: none; }
 
-/* ========= BUTTON ========= */
+
 button.primary {
   margin-top: 18px;
   width: 100%;
@@ -182,7 +181,7 @@ button.primary:active {
   transform: scale(0.97);
 }
 
-/* ========= REMINDERS ========= */
+
 .reminder {
   display: flex;
   justify-content: space-between;
@@ -232,7 +231,7 @@ button.primary:active {
   }
 }
 
-/* ========= TABLET ========= */
+
 @media (min-width: 768px) {
   .app {
     max-width: 460px;
@@ -359,4 +358,5 @@ const list = document.getElementById("list");
 render();
 </script>
 </body>
+
 </html>
