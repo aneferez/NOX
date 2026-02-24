@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Reminders</title>
+
+<style>
+/* ========= THEME ========= */
+:root {
+  --bg: #eef1ff;
+  --bg-accent: #cdd4ff;
+  --card: rgba(255,255,255,0.78);
+  --glass: rgba(255,255,255,0.55);
+  --text: #1b1d22;
+  --muted: #6d7280;
+  --accent: #6b74ff;
+  --border: rgba(0,0,0,0.08);
+  --shadow: 0 30px 80px rgba(0,0,0,0.18);
+}
+
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --bg-accent: #1b1f33;
+  --card: rgba(22,25,38,0.9);
+  --glass: rgba(32,36,58,0.85);
+  --text: #f2f3f7;
+  --muted: #9aa0a6;
+  --accent: #7b86ff;
+  --border: rgba(255,255,255,0.12);
+  --shadow: 0 40px 90px rgba(0,0,0,0.8);
+}
+
+/* ========= BASE ========= */
+* {
+  box-sizing: border-box;
+  transition: background-color .35s ease, color .35s ease, border .35s ease;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: radial-gradient(circle at top, var(--bg-accent), var(--bg));
+  min-height: 100vh;
+  padding: 16px;
+  color: var(--text);
+}
+
+.app {
+  max-width: 420px;
+  margin: auto;
+}
+
+/* ========= HEADER ========= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 22px;
+  background: var(--glass);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
+}
+
+[data-theme="dark"] .app-logo {
+  filter: invert(1) drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+}
+
+.header h1 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  border: none;
+  background: var(--card);
+  cursor: pointer;
+}
+
+/* ========= CARD ========= */
+.card {
+  background: var(--card);
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.card + .card {
+  margin-top: 16px;
+}
+
+/* ========= INPUTS ========= */
+input, select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+input::placeholder { color: var(--muted); }
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* ========= FILE ========= */
+.file-box { margin-top: 14px; }
+
+.file-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--glass);
+  border: 1px dashed var(--border);
+  cursor: pointer;
+}
+
+.file-label strong {
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.file-label span {
+  color: var(--muted);
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 140px;
+}
+
+input[type="file"] { display: none; }
+
+/* ========= BUTTON ========= */
+button.primary {
+  margin-top: 18px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 18px;
+  border: none;
+  background: linear-gradient(135deg, var(--accent), #8f97ff);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button.primary:active {
+  transform: scale(0.97);
+}
+
+/* ========= REMINDERS ========= */
+.reminder {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 18px;
+  background: var(--glass);
+  margin-top: 12px;
+}
+
+.reminder small {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.delete {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: crimson;
+  cursor: pointer;
+}
+
+/* ========= MOBILE ========= */
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .header h1 {
+    font-size: 1rem;
+  }
+
+  .app-logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .file-label span {
+    max-width: 100px;
+  }
+
+  button.primary {
+    padding: 18px;
+    font-size: 1.05rem;
+  }
+}
+
+/* ========= TABLET ========= */
+@media (min-width: 768px) {
+  .app {
+    max-width: 460px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<div class="header">
+  <div class="header-left">
+    <img class="app-logo" alt="Wolf Logo"
+      src="https://in.pinterest.com/pin/10766486607106654/"/>
+    <h1>Reminders</h1>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+</div>
+
+<div class="card">
+  <input id="title" placeholder="Reminder title"/>
+
+  <div class="row">
+    <input type="time" id="time"/>
+    <select id="repeat">
+      <option value="once">Once</option>
+      <option value="daily">Daily</option>
+      <option value="weekly">Weekly</option>
+    </select>
+  </div>
+
+  <div class="file-box">
+    <label class="file-label">
+      <strong>Upload alarm</strong>
+      <span id="file-name">No file</span>
+      <input type="file" id="sound" accept="audio/*" onchange="fileName()">
+    </label>
+  </div>
+
+  <button class="primary" onclick="addReminder()">Add Reminder</button>
+</div>
+
+<div class="card">
+  <h3>Your Reminders</h3>
+  <div id="list"></div>
+</div>
+
+<audio id="alarm"></audio>
+
+</div>
+
+<script>
+let reminders = JSON.parse(localStorage.getItem("reminders") || "[]");
+const alarm = document.getElementById("alarm");
+
+function toggleTheme() {
+  document.documentElement.dataset.theme =
+    document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+}
+
+function fileName() {
+  const f = document.getElementById("sound").files[0];
+  document.getElementById("file-name").textContent = f ? f.name : "No file";
+}
+
+function addReminder() {
+  const title = titleInput.value || "Reminder";
+  const time = timeInput.value;
+  const repeat = repeatSelect.value;
+  const file = soundInput.files[0];
+  if (!time) return alert("Please set a time");
+
+  const reader = file ? new FileReader() : null;
+  const save = (sound=null) => {
+    reminders.push({ id: Date.now(), title, time, repeat, sound });
+    localStorage.setItem("reminders", JSON.stringify(reminders));
+    render();
+  };
+
+  if (reader) {
+    reader.onload = () => save(reader.result);
+    reader.readAsDataURL(file);
+  } else save();
+}
+
+function render() {
+  list.innerHTML = "";
+  reminders.forEach(r => {
+    list.innerHTML += `
+      <div class="reminder">
+        <div>
+          <strong>${r.title}</strong><br>
+          <small>${r.time} • ${r.repeat}</small>
+        </div>
+        <button class="delete" onclick="remove(${r.id})">×</button>
+      </div>`;
+  });
+}
+
+function remove(id) {
+  reminders = reminders.filter(r => r.id !== id);
+  localStorage.setItem("reminders", JSON.stringify(reminders));
+  render();
+}
+
+setInterval(() => {
+  const now = new Date().toTimeString().slice(0,5);
+  reminders.forEach(r => {
+    if (r.time === now) {
+      if (r.sound) alarm.src = r.sound;
+      alarm.play();
+      if (r.repeat === "once") remove(r.id);
+    }
+  });
+}, 1000);
+
+const titleInput = document.getElementById("title");
+const timeInput = document.getElementById("time");
+const repeatSelect = document.getElementById("repeat");
+const soundInput = document.getElementById("sound");
+const list = document.getElementById("list");
+
+render();
+</script>
+</body>
+</html>
